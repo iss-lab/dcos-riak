@@ -1,0 +1,70 @@
+
+name: {{FRAMEWORK_NAME}}
+scheduler:
+  principal: {{FRAMEWORK_PRINCIPAL}}
+  user: {{FRAMEWORK_USER}}
+pods:
+  riak:
+    count: {{NODE_COUNT}}
+    image: {{RIAK_DOCKER_IMAGE}}
+    placement: '{{{NODE_PLACEMENT}}}'
+    {{#ENABLE_VIRTUAL_NETWORK}}
+    networks:
+      {{VIRTUAL_NETWORK_NAME}}:
+        labels: {{VIRTUAL_NETWORK_PLUGIN_LABELS}}
+    {{/ENABLE_VIRTUAL_NETWORK}}
+    tasks:
+      node:
+        goal: RUNNING
+        cmd: |
+            mkdir -p /mnt/mesos/sandbox/riak/data
+            mkdir -p /mnt/mesos/sandbox/riak/log
+            mkdir -p /mnt/mesos/sandbox/riak/etc
+            rm -rf /var/lib/riak
+            rm -rf /var/log/riak
+            cd /var/lib
+            ln -fs /mnt/mesos/sandbox/riak/data riak
+            cd /var/log
+            ln -fs /mnt/mesos/sandbox/riak/log riak
+            cp -R /usr/local/riak/etc/* /mnt/mesos/sandbox/riak/etc/
+            rm -rf /usr/local/riak/etc
+            cd /usr/local/riak
+            ln -fs /mnt/mesos/sandbox/riak/etc etc
+            exec /docker-entrypoint.sh
+        cpus: {{NODE_CPUS}}
+        memory: {{NODE_MEM}}
+        volume:
+          path: "riak"
+          type: {{NODE_DISK_TYPE}}
+          size: {{NODE_DISK}}
+        ports:
+          http:
+            port: {{TASKCFG_ALL_RIAK_LISTENER_HTTP_INTERNAL_PORT}}
+            advertise: true
+            vip:
+              prefix: riak-http
+              port: 8098
+          protobuf:
+            port: {{TASKCFG_ALL_RIAK_LISTENER_PROTOBUF_INTERNAL_PORT}}
+            advertise: true
+            vip:
+              prefix: riak-protobuf
+              port: 8087
+          solr-jmx:
+            port: {{TASKCFG_ALL_RIAK_SEARCH_SOLR_JMX_PORT}}
+            advertise: true
+          solr:
+            port: {{TASKCFG_ALL_RIAK_SEARCH_SOLR_PORT}}
+            advertise: true
+            vip:
+              prefix: riak-solr
+              port: 8093
+          disterl:
+            port: {{TASKCFG_ALL_RIAK_ERLANG_DISTRIBUTION_PORT_RANGE_MAXIMUM}}
+            advertise: true
+          clustermgr:
+            port: 9080
+            advertise: true
+        env:
+          RIAK_LISTENER_HTTP_INTERNAL: 0.0.0.0:{{TASKCFG_ALL_RIAK_LISTENER_HTTP_INTERNAL_PORT}}
+          RIAK_LISTENER_PROTOBUF_INTERNAL: 0.0.0.0:{{TASKCFG_ALL_RIAK_LISTENER_PROTOBUF_INTERNAL_PORT}}

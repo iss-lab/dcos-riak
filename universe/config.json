@@ -1,0 +1,259 @@
+{
+  "type": "object",
+  "properties": {
+    "service": {
+      "type": "object",
+      "description": "DC/OS service configuration properties",
+      "properties": {
+        "name": {
+          "description": "The name of the service instance",
+          "type": "string",
+          "default": "riak",
+          "title": "Service name"
+        },
+        "user": {
+          "description": "The user that the service will run as.",
+          "type": "string",
+          "default": "root",
+          "title": "User"
+        },
+        "service_account": {
+          "description": "The service account for DC/OS service authentication. This is typically left empty to use the default unless service authentication is needed. The value given here is passed as the principal of Mesos framework.",
+          "type": "string",
+          "default": ""
+        },
+        "service_account_secret": {
+          "description": "Name of the Secret Store credentials to use for DC/OS service authentication. This should be left empty unless service authentication is needed.",
+          "type": "string",
+          "default": "",
+          "title": "Credential secret name (optional)"
+        },
+        "virtual_network_enabled": {
+          "description": "Enable virtual networking",
+          "type": "boolean",
+          "default": false
+        },
+        "virtual_network_name": {
+          "description": "The name of the virtual network to join",
+          "type": "string",
+          "default": "dcos"
+        },
+        "virtual_network_plugin_labels": {
+          "description": "Labels to pass to the virtual network plugin. Comma-separated key:value pairs. For example: k_0:v_0,k_1:v_1,...,k_n:v_n",
+          "type": "string",
+          "default": ""
+        },
+        "log_level": {
+          "description": "The log level for the DC/OS service.",
+          "type": "string",
+          "enum": [
+            "OFF",
+            "FATAL",
+            "ERROR",
+            "WARN",
+            "INFO",
+            "DEBUG",
+            "TRACE",
+            "ALL"
+          ],
+          "default": "INFO"
+        },
+        "sleep": {
+          "description": "The sleep duration in seconds before tasks exit.",
+          "type": "number",
+          "default": 1000
+        }
+      },
+      "required": [
+        "name",
+        "sleep",
+        "user"
+      ]
+    },
+    "node": {
+      "description": "riak pod configuration properties",
+      "type": "object",
+      "properties": {
+        "count": {
+          "title": "Node count",
+          "description": "Number of riak pods to run",
+          "type": "integer",
+          "default": 3
+        },
+        "placement_constraint": {
+          "title": "Placement constraint",
+          "description": "Placement constraints for nodes. Example: [[\"hostname\", \"UNIQUE\"]]",
+          "type": "string",
+          "default": "[[\"hostname\", \"UNIQUE\"]]",
+          "media": {
+            "type": "application/x-zone-constraints+json"
+          }
+        },
+        "cpus": {
+          "title": "CPU count",
+          "description": "riak pod CPU requirements",
+          "type": "number",
+          "default": 2
+        },
+        "mem": {
+          "title": "Memory size (MB)",
+          "description": "riak pod mem requirements (in MB)",
+          "type": "integer",
+          "default": 4096
+        },
+        "disk": {
+          "title": "Disk size (MB)",
+          "description": "riak pod persistent disk requirements (in MB)",
+          "type": "integer",
+          "default": 10000
+        },
+        "disk_type": {
+          "title": "Disk type [ROOT, MOUNT]",
+          "description": "Mount volumes require preconfiguration in DC/OS",
+          "enum": [
+            "ROOT",
+            "MOUNT"
+          ],
+          "default": "ROOT"
+        }
+      },
+      "required": [
+        "count",
+        "cpus",
+        "mem",
+        "disk",
+        "disk_type"
+      ]
+    },
+    "riak": {
+      "description": "riak pod configuration properties",
+      "type": "object",
+      "properties": {
+        "RIAK_AF1_WORKER_POOL_SIZE": { "title": "af1_worker_pool_size", "description": "af1_worker_pool_size", "type": "string" },
+        "RIAK_AF2_WORKER_POOL_SIZE": { "title": "af2_worker_pool_size", "description": "af2_worker_pool_size", "type": "string" },
+        "RIAK_AF3_WORKER_POOL_SIZE": { "title": "af3_worker_pool_size", "description": "af3_worker_pool_size", "type": "string" },
+        "RIAK_AF4_WORKER_POOL_SIZE": { "title": "af4_worker_pool_size", "description": "af4_worker_pool_size", "type": "string" },
+        "RIAK_ANTI_ENTROPY": { "title": "anti_entropy", "description": "anti_entropy", "type": "string" },
+        "RIAK_BACKEND_PAUSE_MS": { "title": "backend_pause_ms", "description": "backend_pause_ms", "type": "string" },
+        "RIAK_BE_WORKER_POOL_SIZE": { "title": "be_worker_pool_size", "description": "be_worker_pool_size", "type": "string" },
+        "RIAK_BITCASK_DATA_ROOT": { "title": "bitcask.data_root", "description": "bitcask.data_root", "type": "string" },
+        "RIAK_BITCASK_IO_MODE": { "title": "bitcask.io_mode", "description": "bitcask.io_mode", "type": "string" },
+        "RIAK_CLUSTER_JOB_RIAK_KV_LIST_BUCKETS": { "title": "cluster.job.riak_kv.list_buckets", "description": "cluster.job.riak_kv.list_buckets", "type": "string" },
+        "RIAK_CLUSTER_JOB_RIAK_KV_LIST_KEYS": { "title": "cluster.job.riak_kv.list_keys", "description": "cluster.job.riak_kv.list_keys", "type": "string" },
+        "RIAK_CLUSTER_JOB_RIAK_KV_MAP_REDUCE": { "title": "cluster.job.riak_kv.map_reduce", "description": "cluster.job.riak_kv.map_reduce", "type": "string" },
+        "RIAK_CLUSTER_JOB_RIAK_KV_MAP_REDUCE_JS": { "title": "cluster.job.riak_kv.map_reduce_js", "description": "cluster.job.riak_kv.map_reduce_js", "type": "string" },
+        "RIAK_CLUSTER_JOB_RIAK_KV_SECONDARY_INDEX": { "title": "cluster.job.riak_kv.secondary_index", "description": "cluster.job.riak_kv.secondary_index", "type": "string" },
+        "RIAK_CLUSTER_JOB_RIAK_KV_STREAM_LIST_BUCKETS": { "title": "cluster.job.riak_kv.stream_list_buckets", "description": "cluster.job.riak_kv.stream_list_buckets", "type": "string" },
+        "RIAK_CLUSTER_JOB_RIAK_KV_STREAM_LIST_KEYS": { "title": "cluster.job.riak_kv.stream_list_keys", "description": "cluster.job.riak_kv.stream_list_keys", "type": "string" },
+        "RIAK_CLUSTER_JOB_RIAK_KV_STREAM_SECONDARY_INDEX": { "title": "cluster.job.riak_kv.stream_secondary_index", "description": "cluster.job.riak_kv.stream_secondary_index", "type": "string" },
+        "RIAK_CLUSTER_JOB_YOKOZUNA_QUERY": { "title": "cluster.job.yokozuna.query", "description": "cluster.job.yokozuna.query", "type": "string" },
+        "RIAK_CS_VERSION": { "title": "cs_version", "description": "cs_version", "type": "string" },
+        "RIAK_DISTRIBUTED_COOKIE": { "title": "distributed_cookie", "description": "distributed_cookie", "type": "string" },
+        "RIAK_DTRACE": { "title": "dtrace", "description": "dtrace", "type": "string" },
+        "RIAK_ERLANG_ASYNC_THREADS": { "title": "erlang.async_threads", "description": "erlang.async_threads", "type": "string" },
+        "RIAK_ERLANG_ASYNC_THREADS_STACK_SIZE": { "title": "erlang.async_threads.stack_size", "description": "erlang.async_threads.stack_size", "type": "string" },
+        "RIAK_ERLANG_CRASH_DUMP": { "title": "erlang.crash_dump", "description": "erlang.crash_dump", "type": "string" },
+        "RIAK_ERLANG_DISTRIBUTION_BUFFER_SIZE": { "title": "erlang.distribution_buffer_size", "description": "erlang.distribution_buffer_size", "type": "string" },
+        "RIAK_ERLANG_DISTRIBUTION_NET_TICKTIME": { "title": "erlang.distribution.net_ticktime", "description": "erlang.distribution.net_ticktime", "type": "string" },
+        "RIAK_ERLANG_DISTRIBUTION_PORT_RANGE_MAXIMUM": { "title": "erlang.distribution.port_range.maximum", "description": "erlang.distribution.port_range.maximum", "type": "string", "default": "21347" },
+        "RIAK_ERLANG_DISTRIBUTION_PORT_RANGE_MINIMUM": { "title": "erlang.distribution.port_range.minimum", "description": "erlang.distribution.port_range.minimum", "type": "string", "default": "21347" },
+        "RIAK_ERLANG_FULLSWEEP_AFTER": { "title": "erlang.fullsweep_after", "description": "erlang.fullsweep_after", "type": "string" },
+        "RIAK_ERLANG_K": { "title": "erlang.K", "description": "erlang.K", "type": "string" },
+        "RIAK_ERLANG_MAX_ETS_TABLES": { "title": "erlang.max_ets_tables", "description": "erlang.max_ets_tables", "type": "string" },
+        "RIAK_ERLANG_MAX_PORTS": { "title": "erlang.max_ports", "description": "erlang.max_ports", "type": "string" },
+        "RIAK_ERLANG_PROCESS_LIMIT": { "title": "erlang.process_limit", "description": "erlang.process_limit", "type": "string" },
+        "RIAK_ERLANG_SCHEDULERS_COMPACTION_OF_LOAD": { "title": "erlang.schedulers.compaction_of_load", "description": "erlang.schedulers.compaction_of_load", "type": "string" },
+        "RIAK_ERLANG_SCHEDULERS_FORCE_WAKEUP_INTERVAL": { "title": "erlang.schedulers.force_wakeup_interval", "description": "erlang.schedulers.force_wakeup_interval", "type": "string" },
+        "RIAK_ERLANG_SCHEDULERS_ONLINE": { "title": "erlang.schedulers.online", "description": "erlang.schedulers.online", "type": "string" },
+        "RIAK_ERLANG_SCHEDULERS_TOTAL": { "title": "erlang.schedulers.total", "description": "erlang.schedulers.total", "type": "string" },
+        "RIAK_ERLANG_SCHEDULERS_UTILIZATION_BALANCING": { "title": "erlang.schedulers.utilization_balancing", "description": "erlang.schedulers.utilization_balancing", "type": "string" },
+        "RIAK_ERLANG_SMP": { "title": "erlang.smp", "description": "erlang.smp", "type": "string" },
+        "RIAK_ERLANG_W": { "title": "erlang.W", "description": "erlang.W", "type": "string" },
+        "RIAK_LEVELDB_COMPRESSION": { "title": "leveldb.compression", "description": "leveldb.compression", "type": "string" },
+        "RIAK_LEVELDB_COMPRESSION_ALGORITHM": { "title": "leveldb.compression.algorithm", "description": "leveldb.compression.algorithm", "type": "string" },
+        "RIAK_LEVELDB_MAXIMUM_MEMORY_PERCENT": { "title": "leveldb.maximum_memory.percent", "description": "leveldb.maximum_memory.percent", "type": "string" },
+        "RIAK_LEVELED_COMPACTION_LOW_HOUR": { "title": "leveled.compaction_low_hour", "description": "leveled.compaction_low_hour", "type": "string" },
+        "RIAK_LEVELED_COMPACTION_RUNS_PERDAY": { "title": "leveled.compaction_runs_perday", "description": "leveled.compaction_runs_perday", "type": "string" },
+        "RIAK_LEVELED_COMPACTION_TOP_HOUR": { "title": "leveled.compaction_top_hour", "description": "leveled.compaction_top_hour", "type": "string" },
+        "RIAK_LEVELED_COMPRESSION_METHOD": { "title": "leveled.compression_method", "description": "leveled.compression_method", "type": "string" },
+        "RIAK_LEVELED_COMPRESSION_POINT": { "title": "leveled.compression_point", "description": "leveled.compression_point", "type": "string" },
+        "RIAK_LEVELED_DATA_ROOT": { "title": "leveled.data_root", "description": "leveled.data_root", "type": "string" },
+        "RIAK_LEVELED_JOURNAL_OBJECTCOUNT": { "title": "leveled.journal_objectcount", "description": "leveled.journal_objectcount", "type": "string" },
+        "RIAK_LEVELED_JOURNAL_SIZE": { "title": "leveled.journal_size", "description": "leveled.journal_size", "type": "string" },
+        "RIAK_LEVELED_LEDGER_PAGECACHELEVEL": { "title": "leveled.ledger_pagecachelevel", "description": "leveled.ledger_pagecachelevel", "type": "string" },
+        "RIAK_LEVELED_LOG_LEVEL": { "title": "leveled.log_level", "description": "leveled.log_level", "type": "string" },
+        "RIAK_LEVELED_MAX_RUN_LENGTH": { "title": "leveled.max_run_length", "description": "leveled.max_run_length", "type": "string" },
+        "RIAK_LEVELED_SYNC_STRATEGY": { "title": "leveled.sync_strategy", "description": "leveled.sync_strategy", "type": "string" },
+        "RIAK_LISTENER_HTTPS_INTERNAL_PORT": { "title": "listener.https.internal (port)", "description": "listener.https.internal (port)", "type": "string", "default": "8099" },
+        "RIAK_LISTENER_HTTP_INTERNAL_PORT": { "title": "listener.http.internal (port)", "description": "listener.http.internal (port)", "type": "string", "default": "8098" },
+        "RIAK_LISTENER_PROTOBUF_INTERNAL_PORT": { "title": "listener.protobuf.internal (port)", "description": "listener.protobuf.internal (port)", "type": "string", "default": "8087" },
+        "RIAK_LOG_CONSOLE": { "title": "log.console", "description": "log.console", "type": "string" },
+        "RIAK_LOG_CONSOLE_FILE": { "title": "log.console.file", "description": "log.console.file", "type": "string" },
+        "RIAK_LOG_CONSOLE_LEVEL": { "title": "log.console.level", "description": "log.console.level", "type": "string" },
+        "RIAK_LOG_CRASH": { "title": "log.crash", "description": "log.crash", "type": "string" },
+        "RIAK_LOG_CRASH_FILE": { "title": "log.crash.file", "description": "log.crash.file", "type": "string" },
+        "RIAK_LOG_CRASH_MAXIMUM_MESSAGE_SIZE": { "title": "log.crash.maximum_message_size", "description": "log.crash.maximum_message_size", "type": "string" },
+        "RIAK_LOG_CRASH_ROTATION": { "title": "log.crash.rotation", "description": "log.crash.rotation", "type": "string" },
+        "RIAK_LOG_CRASH_ROTATION_KEEP": { "title": "log.crash.rotation.keep", "description": "log.crash.rotation.keep", "type": "string" },
+        "RIAK_LOG_CRASH_SIZE": { "title": "log.crash.size", "description": "log.crash.size", "type": "string" },
+        "RIAK_LOG_ERROR_FILE": { "title": "log.error.file", "description": "log.error.file", "type": "string" },
+        "RIAK_LOG_SYSLOG": { "title": "log.syslog", "description": "log.syslog", "type": "string" },
+        "RIAK_MULTI_BACKEND_NAME_LEVELDB_COMPRESSION": { "title": "multi_backend.name.leveldb.compression", "description": "multi_backend.name.leveldb.compression", "type": "string" },
+        "RIAK_MULTI_BACKEND_NAME_LEVELDB_COMPRESSION_ALGORITHM": { "title": "multi_backend.name.leveldb.compression.algorithm", "description": "multi_backend.name.leveldb.compression.algorithm", "type": "string" },
+        "RIAK_MULTI_BACKEND_NAME_LEVELED_JOURNAL_OBJECTCOUNT": { "title": "multi_backend.name.leveled.journal_objectcount", "description": "multi_backend.name.leveled.journal_objectcount", "type": "string" },
+        "RIAK_MULTI_BACKEND_NAME_LEVELED_JOURNAL_SIZE": { "title": "multi_backend.name.leveled.journal_size", "description": "multi_backend.name.leveled.journal_size", "type": "string" },
+        "RIAK_MULTI_BACKEND_NAME_LEVELED_LEDGER_PAGECACHELEVEL": { "title": "multi_backend.name.leveled.ledger_pagecachelevel", "description": "multi_backend.name.leveled.ledger_pagecachelevel", "type": "string" },
+        "RIAK_NODENAME": { "title": "nodename", "description": "nodename", "type": "string" },
+        "RIAK_NODE_WORKER_POOL_SIZE": { "title": "node_worker_pool_size", "description": "node_worker_pool_size", "type": "string" },
+        "RIAK_OBJECT_FORMAT": { "title": "object.format", "description": "object.format", "type": "string" },
+        "RIAK_OBJECT_SIBLINGS_MAXIMUM": { "title": "object.siblings.maximum", "description": "object.siblings.maximum", "type": "string" },
+        "RIAK_OBJECT_SIBLINGS_WARNING_THRESHOLD": { "title": "object.siblings.warning_threshold", "description": "object.siblings.warning_threshold", "type": "string" },
+        "RIAK_OBJECT_SIZE_MAXIMUM": { "title": "object.size.maximum", "description": "object.size.maximum", "type": "string" },
+        "RIAK_OBJECT_SIZE_WARNING_THRESHOLD": { "title": "object.size.warning_threshold", "description": "object.size.warning_threshold", "type": "string" },
+        "RIAK_PARTICIPATE_IN_COVERAGE": { "title": "participate_in_coverage", "description": "participate_in_coverage", "type": "string" },
+        "RIAK_PLATFORM_BIN_DIR": { "title": "platform_bin_dir", "description": "platform_bin_dir", "type": "string" },
+        "RIAK_PLATFORM_DATA_DIR": { "title": "platform_data_dir", "description": "platform_data_dir", "type": "string", "default": "/var/lib/riak" },
+        "RIAK_PLATFORM_ETC_DIR": { "title": "platform_etc_dir", "description": "platform_etc_dir", "type": "string", "default": "/usr/local/riak/etc" },
+        "RIAK_PLATFORM_LIB_DIR": { "title": "platform_lib_dir", "description": "platform_lib_dir", "type": "string" },
+        "RIAK_PLATFORM_LOG_DIR": { "title": "platform_log_dir", "description": "platform_log_dir", "type": "string", "default": "/var/log/riak" },
+        "RIAK_PROTOBUF_BACKLOG": { "title": "protobuf.backlog", "description": "protobuf.backlog", "type": "string" },
+        "RIAK_RIAK_CONTROL": { "title": "riak_control", "description": "riak_control", "type": "string" },
+        "RIAK_RIAK_CONTROL_AUTH_MODE": { "title": "riak_control.auth.mode", "description": "riak_control.auth.mode", "type": "string" },
+        "RIAK_RIAK_CONTROL_AUTH_USER_ADMIN_PASSWORD": { "title": "riak_control.auth.user.admin.password", "description": "riak_control.auth.user.admin.password", "type": "string" },
+        "RIAK_RING_SIZE": { "title": "ring_size", "description": "ring_size", "type": "string" },
+        "RIAK_SEARCH": { "title": "search", "description": "search", "type": "string" },
+        "RIAK_SEARCH_QUEUE_BATCH_FLUSH_INTERVAL": { "title": "search.queue.batch.flush_interval", "description": "search.queue.batch.flush_interval", "type": "string" },
+        "RIAK_SEARCH_QUEUE_BATCH_MAXIMUM": { "title": "search.queue.batch.maximum", "description": "search.queue.batch.maximum", "type": "string" },
+        "RIAK_SEARCH_QUEUE_BATCH_MINIMUM": { "title": "search.queue.batch.minimum", "description": "search.queue.batch.minimum", "type": "string" },
+        "RIAK_SEARCH_QUEUE_HIGH_WATERMARK": { "title": "search.queue.high_watermark", "description": "search.queue.high_watermark", "type": "string" },
+        "RIAK_SEARCH_QUEUE_HIGH_WATERMARK_PURGE_STRATEGY": { "title": "search.queue.high_watermark.purge_strategy", "description": "search.queue.high_watermark.purge_strategy", "type": "string" },
+        "RIAK_SEARCH_SOLR_JMX_PORT": { "title": "search.solr.jmx_port", "description": "search.solr.jmx_port", "type": "string", "default": "8985" },
+        "RIAK_SEARCH_SOLR_JVM_OPTIONS": { "title": "search.solr.jvm_options", "description": "search.solr.jvm_options", "type": "string" },
+        "RIAK_SEARCH_SOLR_PORT": { "title": "search.solr.port", "description": "search.solr.port", "type": "string", "default": "8093" },
+        "RIAK_SEARCH_SOLR_START_TIMEOUT": { "title": "search.solr.start_timeout", "description": "search.solr.start_timeout", "type": "string" },
+        "RIAK_SSL_CACERTFILE": { "title": "ssl.cacertfile", "description": "ssl.cacertfile", "type": "string" },
+        "RIAK_SSL_CERTFILE": { "title": "ssl.certfile", "description": "ssl.certfile", "type": "string" },
+        "RIAK_SSL_KEYFILE": { "title": "ssl.keyfile", "description": "ssl.keyfile", "type": "string" },
+        "RIAK_STORAGE_BACKEND": { "title": "storage_backend", "description": "storage_backend", "type": "string" },
+        "RIAK_STRONG_CONSISTENCY": { "title": "strong_consistency", "description": "strong_consistency", "type": "string" },
+        "RIAK_TICTACAAE_ACTIVE": { "title": "tictacaae_active", "description": "tictacaae_active", "type": "string" },
+        "RIAK_TICTACAAE_DATAROOT": { "title": "tictacaae_dataroot", "description": "tictacaae_dataroot", "type": "string" },
+        "RIAK_TICTACAAE_PARALLELSTORE": { "title": "tictacaae_parallelstore", "description": "tictacaae_parallelstore", "type": "string" },
+        "RIAK_TICTACAAE_REBUILDDELAY": { "title": "tictacaae_rebuilddelay", "description": "tictacaae_rebuilddelay", "type": "string" },
+        "RIAK_TICTACAAE_REBUILDWAIT": { "title": "tictacaae_rebuildwait", "description": "tictacaae_rebuildwait", "type": "string" },
+        "RIAK_TICTACAAE_STOREHEADS": { "title": "tictacaae_storeheads", "description": "tictacaae_storeheads", "type": "string" },
+        "RIAK_TRANSFER_LIMIT": { "title": "transfer_limit", "description": "transfer_limit", "type": "string" },
+        "RIAK_WORKER_POOL_STRATEGY": { "title": "worker_pool_strategy", "description": "worker_pool_strategy", "type": "string" }
+      },
+      "required": [
+        "RIAK_ERLANG_DISTRIBUTION_PORT_RANGE_MAXIMUM",
+        "RIAK_ERLANG_DISTRIBUTION_PORT_RANGE_MINIMUM",
+        "RIAK_LISTENER_HTTPS_INTERNAL_PORT",
+        "RIAK_LISTENER_HTTP_INTERNAL_PORT",
+        "RIAK_LISTENER_PROTOBUF_INTERNAL_PORT",
+        "RIAK_SEARCH_SOLR_JMX_PORT",
+        "RIAK_SEARCH_SOLR_PORT"
+      ]
+    }
+  }
+}
