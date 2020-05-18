@@ -203,7 +203,7 @@
         "RIAK_MULTI_BACKEND_NAME_LEVELED_JOURNAL_OBJECTCOUNT": { "title": "multi_backend.name.leveled.journal_objectcount", "description": "multi_backend.name.leveled.journal_objectcount", "type": "string" },
         "RIAK_MULTI_BACKEND_NAME_LEVELED_JOURNAL_SIZE": { "title": "multi_backend.name.leveled.journal_size", "description": "multi_backend.name.leveled.journal_size", "type": "string" },
         "RIAK_MULTI_BACKEND_NAME_LEVELED_LEDGER_PAGECACHELEVEL": { "title": "multi_backend.name.leveled.ledger_pagecachelevel", "description": "multi_backend.name.leveled.ledger_pagecachelevel", "type": "string" },
-        "RIAK_NODENAME": { "title": "nodename", "description": "nodename", "type": "string" },
+        "RIAK_NODENAME_PREFIX": { "title": "nodename (prefix)", "description": "nodename", "type": "string", "default": "riak" },
         "RIAK_NODE_WORKER_POOL_SIZE": { "title": "node_worker_pool_size", "description": "node_worker_pool_size", "type": "string" },
         "RIAK_OBJECT_FORMAT": { "title": "object.format", "description": "object.format", "type": "string" },
         "RIAK_OBJECT_SIBLINGS_MAXIMUM": { "title": "object.siblings.maximum", "description": "object.siblings.maximum", "type": "string" },

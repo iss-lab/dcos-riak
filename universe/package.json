@@ -1,16 +1,15 @@
-
 {
   "packagingVersion": "4.0",
   "upgradesFrom": ["{{upgrades-from}}"],
   "downgradesTo": ["{{downgrades-to}}"],
-  "minDcosReleaseVersion": "1.9",
+  "minDcosReleaseVersion": "1.13",
   "name": "riak",
   "version": "{{package-version}}",
-  "maintainer": "support@YOURNAMEHERE.COM",
-  "description": "YOURNAMEHERE on DC/OS",
+  "maintainer": "andrew.kerrigan@issgovernance.com",
+  "description": "Riak on DC/OS",
   "selected": false,
   "framework": true,
-  "tags": ["0.55.2", "riak"],
-  "postInstallNotes": "DC/OS YOURNAMEHERE is being installed!\n\n\tDocumentation: {{documentation-path}}\n\tIssues: {{issues-path}}",
-  "postUninstallNotes": "DC/OS YOURNAMEHERE is being uninstalled."
+  "tags": ["0.55.2", "riak", "database"],
+  "postInstallNotes": "DC/OS Riak is being installed!\n\n\tDocumentation: https://github.com/iss-lab/dcos-riak\n\tIssues: https://github.com/iss-lab/dcos-riak/issues",
+  "postUninstallNotes": "DC/OS Riak is being uninstalled."
 }
