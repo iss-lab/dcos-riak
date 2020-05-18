@@ -55,7 +55,7 @@
     "MESOS_AUTHENTICATEE": "com_mesosphere_dcos_ClassicRPCAuthenticatee",
     "MESOS_HTTP_AUTHENTICATEE": "com_mesosphere_dcos_http_Authenticatee",
     {{/service.service_account_secret}}
-
+    "PAUSE_OVERRIDE_CMD": "echo This task is PAUSED, sleeping ... && /mnt/mesos/sandbox/bootstrap --resolve=false && while true; do sleep 3600; done",
     "RIAK_DOCKER_IMAGE": "{{resource.assets.container.docker.riak}}",
     {{#riak.RIAK_AF1_WORKER_POOL_SIZE}} "TASKCFG_ALL_RIAK_AF1_WORKER_POOL_SIZE": "{{riak.RIAK_AF1_WORKER_POOL_SIZE}}", {{/riak.RIAK_AF1_WORKER_POOL_SIZE}}
     {{#riak.RIAK_AF2_WORKER_POOL_SIZE}} "TASKCFG_ALL_RIAK_AF2_WORKER_POOL_SIZE": "{{riak.RIAK_AF2_WORKER_POOL_SIZE}}", {{/riak.RIAK_AF2_WORKER_POOL_SIZE}}

@@ -18,18 +18,47 @@ pods:
         goal: RUNNING
         cmd: |
             mkdir -p /mnt/mesos/sandbox/riak/data
-            mkdir -p /mnt/mesos/sandbox/riak/log
+            mkdir -p /mnt/mesos/sandbox/riak/var-log
+            mkdir -p /mnt/mesos/sandbox/riak/erl-log
             mkdir -p /mnt/mesos/sandbox/riak/etc
             rm -rf /var/lib/riak
             rm -rf /var/log/riak
             cd /var/lib
             ln -fs /mnt/mesos/sandbox/riak/data riak
             cd /var/log
-            ln -fs /mnt/mesos/sandbox/riak/log riak
-            cp -R /usr/local/riak/etc/* /mnt/mesos/sandbox/riak/etc/
-            rm -rf /usr/local/riak/etc
+            ln -fs /mnt/mesos/sandbox/riak/var-log riak
+            mkdir -p /usr/local/riak/etc.bak/
+            cp -R /usr/local/riak/etc/* /usr/local/riak/etc.bak/
+            cp -R /usr/local/riak/etc.bak/* /mnt/mesos/sandbox/riak/etc/
             cd /usr/local/riak
+            rm -rf /usr/local/riak/etc
             ln -fs /mnt/mesos/sandbox/riak/etc etc
+            rm -rf /usr/local/riak/log
+            ln -fs /mnt/mesos/sandbox/riak/erl-log log
+
+            cp /var/service/riak/run /var/service/riak/run.bak
+            rm -f /var/service/riak/run
+            cat >> /var/service/riak/run <<EOL
+            #!/bin/sh
+            exec /usr/local/riak/bin/riak start
+            EOL
+            chmod 755 /var/service/riak/run
+
+            rm -f /var/service/riak/finish
+            cat >> /var/service/riak/finish <<EOL
+            #!/bin/bash
+            while true; do 
+              /usr/local/riak/bin/riak ping
+              if [[ "\$?" -ne 1 ]]; then 
+                break
+              fi
+              sleep 5
+            done
+
+            exec /usr/bin/tail -F /usr/local/riak/log/*
+            EOL
+            chmod 755 /var/service/riak/finish
+
             exec /docker-entrypoint.sh
         cpus: {{NODE_CPUS}}
         memory: {{NODE_MEM}}
