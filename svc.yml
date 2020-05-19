@@ -12,6 +12,8 @@ pods:
       {{VIRTUAL_NETWORK_NAME}}:
         labels: {{VIRTUAL_NETWORK_PLUGIN_LABELS}}
     {{/ENABLE_VIRTUAL_NETWORK}}
+    uris:
+      - {{NODE_INIT_SH_URI}}
     resource-sets:
       node-resources:
         cpus: {{NODE_CPUS}}
@@ -42,10 +44,10 @@ pods:
             port: {{TASKCFG_ALL_RIAK_ERLANG_DISTRIBUTION_PORT_RANGE_MAXIMUM}}
             advertise: true
           epmd:
-            port: 4369
+            port: {{TASKCFG_ALL_ERL_EPMD_PORT}}
             advertise: true
           clustermgr:
-            port: 9080
+            port: {{TASKCFG_ALL_ADVCFG_CLUSTERMGR_PORT}}
             advertise: true
         volumes:
           riak:
@@ -57,84 +59,16 @@ pods:
         resource-set: node-resources
         goal: RUNNING
         cmd: |
-            mkdir -p /mnt/mesos/sandbox/riak/data
-            rm -rf /var/lib/riak
-            cd /var/lib
-            ln -fs /mnt/mesos/sandbox/riak/data riak
-
-            mkdir -p /mnt/mesos/sandbox/riak/config-data
-            rm -rf /usr/local/riak/data
-            cd /usr/local/riak
-            ln -fs /mnt/mesos/sandbox/riak/config-data data
-
-            mkdir -p /mnt/mesos/sandbox/riak/var-log
-            rm -rf /var/log/riak
-            cd /var/log
-            ln -fs /mnt/mesos/sandbox/riak/var-log riak
-
-            mkdir -p /mnt/mesos/sandbox/riak/etc
-            mkdir -p /usr/local/riak/etc.bak/
-            cp -R /usr/local/riak/etc/* /usr/local/riak/etc.bak/
-            cp -R /usr/local/riak/etc.bak/* /mnt/mesos/sandbox/riak/etc/
-            rm -rf /usr/local/riak/etc
-            cd /usr/local/riak
-            ln -fs /mnt/mesos/sandbox/riak/etc etc
-
-            mkdir -p /mnt/mesos/sandbox/riak/erl-log
-            rm -rf /usr/local/riak/log
-            cd /usr/local/riak
-            ln -fs /mnt/mesos/sandbox/riak/erl-log log
-
-            cp /var/service/riak/run /var/service/riak/run.bak
-            rm -f /var/service/riak/run
-            cat >> /var/service/riak/run <<EOL
-            #!/bin/sh
-            exec /usr/local/riak/bin/riak start
-            EOL
-            chmod 755 /var/service/riak/run
-
-            rm -f /var/service/riak/finish
-            cat >> /var/service/riak/finish <<EOL
-            #!/bin/bash
-            while true; do 
-              /usr/local/riak/bin/riak ping
-              if [[ "\$?" -ne 1 ]]; then 
-                break
-              fi
-              sleep 5
-            done
-            exec /usr/bin/tail -F /usr/local/riak/log/*
-            EOL
-            chmod 755 /var/service/riak/finish
-
-            rm -f /usr/local/riak/bin/join-node-0
-            cat >> /usr/local/riak/bin/join-node-0 <<EOL
-            #!/bin/bash
-            # All other nodes should join 0, exit if we are riak-0-node
-            [[ "\${POD_INSTANCE_INDEX}" == "0" ]] && exit 0
-            # Wait for our own riak_kv service to come up
-            /usr/local/riak/bin/riak-admin wait-for-service riak_kv
-            # Wait for riak-0-node's riak_kv service to come up
-            /usr/local/riak/bin/riak-admin wait-for-service riak_kv "{{TASKCFG_ALL_RIAK_NODENAME_PREFIX}}@riak-0-node.\${FRAMEWORK_HOST}"
-            # Attempt to join riak-0-node
-            /usr/local/riak/bin/riak-admin cluster join "{{TASKCFG_ALL_RIAK_NODENAME_PREFIX}}@riak-0-node.\${FRAMEWORK_HOST}"
-            EOL
-            chmod 755 /usr/local/riak/bin/join-node-0
-
             export RIAK_NODENAME={{TASKCFG_ALL_RIAK_NODENAME_PREFIX}}@riak-${POD_INSTANCE_INDEX}-node.${FRAMEWORK_HOST}
-
+            exec /mnt/mesos/sandbox/node-init.sh
             exec /docker-entrypoint.sh
+        configs:
+         advanced.config:
+           template: advanced.config.mustache
+           dest: riak/etc/advanced.config
         env:
           RIAK_LISTENER_HTTP_INTERNAL: 0.0.0.0:{{TASKCFG_ALL_RIAK_LISTENER_HTTP_INTERNAL_PORT}}
           RIAK_LISTENER_PROTOBUF_INTERNAL: 0.0.0.0:{{TASKCFG_ALL_RIAK_LISTENER_PROTOBUF_INTERNAL_PORT}}
-          ERL_EPMD_PORT: 44369
-      join-node:
-        resource-set: node-resources
-        goal: ONCE
-        cmd: |
-            exec /usr/local/riak/bin/join-node-0
-        env: 
-          ERL_EPMD_PORT: 44369
 
 plans:
   deploy:
@@ -145,11 +79,3 @@ plans:
         pod: riak
         steps:
           - default: [[node]]
-  join:
-    strategy: serial
-    phases:
-      node-deploy:
-        strategy: serial
-        pod: riak
-        steps:
-          - default: [[join-node]]
