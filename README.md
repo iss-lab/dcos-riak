@@ -92,3 +92,39 @@ Riak-Admin CLI command reference can be found here: https://docs.riak.com/riak/k
 ```
 dcos task exec -it riak-0-node riak-admin cluster status
 ```
+
+### Finding Endpoints
+
+List endpoints:
+
+```
+dcos riak endpoints
+[
+  "clustermgr",
+  "disterl",
+  "epmd",
+  "http",
+  "protobuf",
+  "solr",
+  "solr-jmx"
+]
+```
+
+Find DNS for HTTP endpoint:
+
+```
+dcos riak endpoints http
+{
+  "address": [
+    "10.XXX.XX.XX1:8098",
+    "10.XXX.XX.XX2:8098",
+    "10.XXX.XX.XX3:8098"
+  ],
+  "dns": [
+    "riak-0-node.riak.autoip.dcos.thisdcos.directory:8098",
+    "riak-1-node.riak.autoip.dcos.thisdcos.directory:8098",
+    "riak-2-node.riak.autoip.dcos.thisdcos.directory:8098"
+  ],
+  "vip": "riak-http.riak.l4lb.thisdcos.directory:8098"
+}
+```
