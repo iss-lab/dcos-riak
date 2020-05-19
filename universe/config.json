@@ -93,7 +93,7 @@
           "title": "CPU count",
           "description": "riak pod CPU requirements",
           "type": "number",
-          "default": 2
+          "default": 4
         },
         "mem": {
           "title": "Memory size (MB)",
@@ -172,7 +172,7 @@
         "RIAK_ERLANG_SCHEDULERS_COMPACTION_OF_LOAD": { "title": "erlang.schedulers.compaction_of_load", "description": "erlang.schedulers.compaction_of_load", "type": "string" },
         "RIAK_ERLANG_SCHEDULERS_FORCE_WAKEUP_INTERVAL": { "title": "erlang.schedulers.force_wakeup_interval", "description": "erlang.schedulers.force_wakeup_interval", "type": "string" },
         "RIAK_ERLANG_SCHEDULERS_ONLINE": { "title": "erlang.schedulers.online", "description": "erlang.schedulers.online", "type": "string" },
-        "RIAK_ERLANG_SCHEDULERS_TOTAL": { "title": "erlang.schedulers.total", "description": "erlang.schedulers.total", "type": "string" },
+        "RIAK_ERLANG_SCHEDULERS_TOTAL": { "title": "erlang.schedulers.total", "description": "erlang.schedulers.total", "type": "string", "default": "4" },
         "RIAK_ERLANG_SCHEDULERS_UTILIZATION_BALANCING": { "title": "erlang.schedulers.utilization_balancing", "description": "erlang.schedulers.utilization_balancing", "type": "string" },
         "RIAK_ERLANG_SMP": { "title": "erlang.smp", "description": "erlang.smp", "type": "string" },
         "RIAK_ERLANG_W": { "title": "erlang.W", "description": "erlang.W", "type": "string" },
@@ -224,7 +224,7 @@
         "RIAK_RIAK_CONTROL": { "title": "riak_control", "description": "riak_control", "type": "string" },
         "RIAK_RIAK_CONTROL_AUTH_MODE": { "title": "riak_control.auth.mode", "description": "riak_control.auth.mode", "type": "string" },
         "RIAK_RIAK_CONTROL_AUTH_USER_ADMIN_PASSWORD": { "title": "riak_control.auth.user.admin.password", "description": "riak_control.auth.user.admin.password", "type": "string" },
-        "RIAK_RING_SIZE": { "title": "ring_size", "description": "ring_size", "type": "string" },
+        "RIAK_RING_SIZE": { "title": "ring_size", "description": "ring_size", "type": "string", "default": "64" },
         "RIAK_SEARCH": { "title": "search", "description": "search", "type": "string" },
         "RIAK_SEARCH_QUEUE_BATCH_FLUSH_INTERVAL": { "title": "search.queue.batch.flush_interval", "description": "search.queue.batch.flush_interval", "type": "string" },
         "RIAK_SEARCH_QUEUE_BATCH_MAXIMUM": { "title": "search.queue.batch.maximum", "description": "search.queue.batch.maximum", "type": "string" },

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 mkdir -p /mnt/mesos/sandbox/riak/data
 rm -rf /var/lib/riak
@@ -22,6 +22,11 @@ cp -R /usr/local/riak/etc.bak/* /mnt/mesos/sandbox/riak/etc/
 rm -rf /usr/local/riak/etc
 cd /usr/local/riak
 ln -fs /mnt/mesos/sandbox/riak/etc etc
+
+rm -f /mnt/mesos/sandbox/riak/etc/advanced.config
+cp /usr/local/riak/advanced.config /mnt/mesos/sandbox/riak/etc/advanced.config
+
+cp /mnt/mesos/sandbox/node-connect.sh /usr/local/riak/bin/node-connect.sh
 
 mkdir -p /mnt/mesos/sandbox/riak/erl-log
 rm -rf /usr/local/riak/log

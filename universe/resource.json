@@ -8,6 +8,7 @@
       "scheduler-zip": "https://ecosystem-repo.s3.amazonaws.com/sdk/artifacts/0.55.2/operator-scheduler.zip",
       "svc": "http://vsna-uat-dcb001.ad.issgovernance.com:9000/artifacts/riak/svc.yml",
       "node-init-sh": "http://vsna-uat-dcb001.ad.issgovernance.com:9000/artifacts/riak/node-init.sh",
+      "node-connect-sh": "http://vsna-uat-dcb001.ad.issgovernance.com:9000/artifacts/riak/node-connect.sh",
       "node-advanced-config": "http://vsna-uat-dcb001.ad.issgovernance.com:9000/artifacts/riak/advanced.config.mustache"
     },
     "container": {
