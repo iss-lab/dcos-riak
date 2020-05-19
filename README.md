@@ -128,3 +128,22 @@ dcos riak endpoints http
   "vip": "riak-http.riak.l4lb.thisdcos.directory:8098"
 }
 ```
+
+NOTE: The vip is a load balanced address that will work within the cluster.
+
+### Writing and Reading Objects
+
+Write:
+
+```
+curl -XPUT \
+  -H "Content-Type: text/plain" \
+  -d "vroom" \
+  'http://riak-http.riak.l4lb.thisdcos.directory:8098/types/default/buckets/dodge/keys/viper?w=3'
+```
+
+Read:
+
+```
+curl -XGET 'http://riak-http.riak.l4lb.thisdcos.directory:8098/types/default/buckets/dodge/keys/viper?r=3'
+```
