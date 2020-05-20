@@ -163,4 +163,23 @@ rm -f universe/riak-repo.json
 dcosdev release 2.9.2 0 none
 ```
 
-That command will fail, but it creates the correct `universe/riak-repo.json` which can be uploaded elsewhere.
+That command will fail, but it creates the correct `universe/riak-repo.json` which can be uploaded elsewhere, like Github.
+
+```
+GH_REPO="https://api.github.com/repos/iss-lab/dcos-riak"
+GH_TAGS="$GH_REPO/releases/tags/v2.9.2"
+AUTH="Authorization: token $github_api_token"
+response=$(curl -sH "$AUTH" $GH_TAGS)
+id=$(echo $response | jq .id)
+GH_ASSET="https://uploads.github.com/repos/iss-lab/dcos-riak/releases/$id/assets"
+
+curl --data-binary @"universe/riak-repo.json" -H "Authorization: token $github_api_token" -H "Content-Type: application/vnd.dcos.universe.repo+json;charset=utf-8;version=v4" "$GH_ASSET?name=riak-repo.json"
+
+curl --data-binary @"svc.yml" -H "Authorization: token $github_api_token" -H "Content-Type: text/yaml" "$GH_ASSET?name=svc.yml"
+
+curl --data-binary @"node-init.sh" -H "Authorization: token $github_api_token" -H "Content-Type: text/x-shellscript" "$GH_ASSET?name=node-init.sh"
+
+curl --data-binary @"node-connect.sh" -H "Authorization: token $github_api_token" -H "Content-Type: text/x-shellscript" "$GH_ASSET?name=node-connect.sh"
+
+curl --data-binary @"advanced.config.mustache" -H "Authorization: token $github_api_token" -H "Content-Type: text/plain" "$GH_ASSET?name=advanced.config.mustache"
+```
