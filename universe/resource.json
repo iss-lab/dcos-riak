@@ -6,10 +6,10 @@
       "bootstrap-zip": "https://downloads.mesosphere.com/dcos-commons/artifacts/0.55.2/bootstrap.zip",
       "executor-zip": "https://downloads.mesosphere.com/dcos-commons/artifacts/0.55.2/executor.zip",
       "scheduler-zip": "https://ecosystem-repo.s3.amazonaws.com/sdk/artifacts/0.55.2/operator-scheduler.zip",
-      "svc": "http://vsna-uat-dcb001.ad.issgovernance.com:9000/artifacts/riak/svc.yml",
-      "node-init-sh": "http://vsna-uat-dcb001.ad.issgovernance.com:9000/artifacts/riak/node-init.sh",
-      "node-connect-sh": "http://vsna-uat-dcb001.ad.issgovernance.com:9000/artifacts/riak/node-connect.sh",
-      "node-advanced-config": "http://vsna-uat-dcb001.ad.issgovernance.com:9000/artifacts/riak/advanced.config.mustache"
+      "svc": "https://github.com/iss-lab/dcos-riak/releases/download/v2.9.2/svc.yml",
+      "node-init-sh": "https://github.com/iss-lab/dcos-riak/releases/download/v2.9.2/node-init.sh",
+      "node-connect-sh": "https://github.com/iss-lab/dcos-riak/releases/download/v2.9.2/node-connect.sh",
+      "node-advanced-config": "https://github.com/iss-lab/dcos-riak/releases/download/v2.9.2/advanced.config.mustache"
     },
     "container": {
       "docker": {

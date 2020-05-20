@@ -84,3 +84,11 @@ plans:
         pod: riak
         steps:
           - default: [[node]]
+  update:
+    strategy: serial
+    phases:
+      node-deploy:
+        strategy: serial
+        pod: riak
+        steps:
+          - default: [[node]]

@@ -2,19 +2,10 @@
 
 This project implements a minimal DC/OS framework based on the `docker-riak` image found here: https://github.com/nilium/docker-riak
 
-## Creating this project
+## DC/OS Setup
 
 ```
-dcosdev operator new riak 0.55.2
-```
-
-## Configuring your DC/OS cluster
-
-```
-export MINIO_HOST=<minio host>
-dcosdev up
-dcos package repo remove riak-repo
-dcos package repo add riak-repo --index=0 <minio host>/artifacts/riak/riak-repo.json
+dcos package repo add riak-repo --index=0 https://github.com/iss-lab/dcos-riak/releases/download/v2.9.2/riak-repo.json
 ```
 
 ## Installing
@@ -147,3 +138,29 @@ Read:
 ```
 curl -XGET 'http://riak-http.riak.l4lb.thisdcos.directory:8098/types/default/buckets/dodge/keys/viper?r=3'
 ```
+
+## Development
+
+### Creating this project
+
+```
+dcosdev operator new riak 0.55.2
+```
+
+### Configuring your DC/OS cluster
+
+```
+export MINIO_HOST=<minio host>
+dcosdev up
+dcos package repo remove riak-repo
+dcos package repo add riak-repo --index=0 <minio host>/artifacts/riak/riak-repo.json
+```
+
+### Creating a github release
+
+```
+rm -f universe/riak-repo.json
+dcosdev release 2.9.2 0 none
+```
+
+That command will fail, but it creates the correct `universe/riak-repo.json` which can be uploaded elsewhere.
