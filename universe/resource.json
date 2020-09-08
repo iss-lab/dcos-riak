@@ -6,16 +6,16 @@
       "bootstrap-zip": "https://downloads.mesosphere.com/dcos-commons/artifacts/0.55.2/bootstrap.zip",
       "executor-zip": "https://downloads.mesosphere.com/dcos-commons/artifacts/0.55.2/executor.zip",
       "scheduler-zip": "https://ecosystem-repo.s3.amazonaws.com/sdk/artifacts/0.55.2/operator-scheduler.zip",
-      "svc": "https://github.com/iss-lab/dcos-riak/releases/download/v2.9.2/svc.yml",
-      "node-init-sh": "https://github.com/iss-lab/dcos-riak/releases/download/v2.9.2/node-init.sh",
-      "node-connect-sh": "https://github.com/iss-lab/dcos-riak/releases/download/v2.9.2/node-connect.sh",
-      "node-advanced-config": "https://github.com/iss-lab/dcos-riak/releases/download/v2.9.2/advanced.config.mustache"
+      "svc": "%(artifacts-url)s/svc.yml",
+      "node-init-sh": "%(artifacts-url)s/node-init.sh",
+      "node-connect-sh": "%(artifacts-url)s/node-connect.sh",
+      "node-advanced-config": "%(artifacts-url)s/advanced.config.mustache"
     },
     "container": {
       "docker": {
           "riak": "nilium/riak:2.9.2"
       }
-  }
+    }
   },
   "images": {
     "icon-small": "https://github.com/dcos/dcos-ui/blob/master/plugins/services/src/img/icon-service-default-small.png?raw=true",
